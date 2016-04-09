@@ -11,14 +11,21 @@ chrome.tabs.query({
 
 
 function StarThisRep(res) {
-  var starTip = document.querySelector('#star_tip');
-  var inputLabelContainer = document.querySelector('#input-label-container');
+  var starTip = $('#star_tip');
+  var inputLabelContainer = $('#input-label-container');
   if (!res) {
-    starTip.textContent = '仓库不能重复star';
+    starTip.text('仓库不能重复star');
   } else {
-    starTip.textContent = res + ' star成功！';
-    inputLabelContainer.style.display = 'block';
+    starTip.text(res + ' star成功！');
+    inputLabelContainer.show();
+    $('#input-label').focus();
   }
 }
 
+$(document).on('keydown', '#input-label', function (e) {
+  if (e.which === 13) {
+    $('#label-list').append('<li>' + e.target.value + '</li>');
+    e.target.value = '';
+  }
+});
 
