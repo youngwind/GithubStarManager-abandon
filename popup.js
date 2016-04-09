@@ -1,42 +1,23 @@
-// Copyright (c) 2012 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
-
-console.log('aa');
-
-/*
-
-var req = new XMLHttpRequest();
-req.open(
-    "GET",
-    "http://api.flickr.com/services/rest/?" +
-        "method=flickr.photos.search&" +
-        "api_key=90485e931f687a9b9c2a66bf58a3861a&" +
-        "text=hello%20world&" +
-        "safe_search=1&" +  // 1 is "safe"
-        "content_type=1&" +  // 1 is "photos only"
-        "sort=relevance&" +  // another good one is "interestingness-desc"
-        "per_page=20",
-    true);
-req.onload = showPhotos;
-req.send(null);
-
-function showPhotos() {
-  var photos = req.responseXML.getElementsByTagName("photo");
-
-  for (var i = 0, photo; photo = photos[i]; i++) {
-    var img = document.createElement("image");
-    img.src = constructImageURL(photo);
-    document.body.appendChild(img);
-  }
+// Update the relevant fields with the new data
+function setDOMInfo(info) {
+  document.getElementById('total').textContent   = info.total;
+  document.getElementById('inputs').textContent  = info.inputs;
+  document.getElementById('buttons').textContent = info.buttons;
 }
 
-// See: http://www.flickr.com/services/api/misc.urls.html
-function constructImageURL(photo) {
-  return "http://farm" + photo.getAttribute("farm") +
-      ".static.flickr.com/" + photo.getAttribute("server") +
-      "/" + photo.getAttribute("id") +
-      "_" + photo.getAttribute("secret") +
-      "_s.jpg";
-}
-*/
+// Once the DOM is ready...
+window.addEventListener('DOMContentLoaded', function () {
+  // ...query for the active tab...
+  chrome.tabs.query({
+    active: true,
+    currentWindow: true
+  }, function (tabs) {
+    // ...and send a request for the DOM info...
+    chrome.tabs.sendMessage(
+      tabs[0].id,
+      {from: 'popup', subject: 'DOMInfo'},
+      // ...also specifying a callback to be called
+      //    from the receiving end (content script)
+      setDOMInfo);
+  });
+});
