@@ -1,9 +1,10 @@
 // Inform the background page that 
 // this tab should have a page-action
 chrome.runtime.sendMessage({
-  from:    'content',
+  from: 'content',
   subject: 'showPageAction'
 });
+
 
 // Listen for messages from the popup
 chrome.runtime.onMessage.addListener(function (msg, sender, response) {
@@ -13,12 +14,25 @@ chrome.runtime.onMessage.addListener(function (msg, sender, response) {
     // (For your specific requirements `document.querySelectorAll(...)`
     //  should be equivalent to jquery's `$(...)`)
     var domInfo = {
-      total:   document.querySelectorAll('*').length,
-      inputs:  document.querySelectorAll('input').length,
-      buttons: document.querySelectorAll('button').length
+      total: document.querySelectorAll('*').length,
+      inputs: document.querySelectorAll('input').length,
+      buttons: document.querySelectorAll('button').length,
+      url: 'lodash'
     };
 
     // Directly respond to the sender (popup), 
+    // through the specified callback */
+    response(domInfo);
+  }
+
+  if ((msg.from === 'popup') && (msg.subject === 'test')) {
+    // Collect the necessary data
+    // (For your specific requirements `document.querySelectorAll(...)`
+    //  should be equivalent to jquery's `$(...)`)
+    var domInfo = window.location.href;
+    console.log(domInfo);
+
+    // Directly respond to the sender (popup),
     // through the specified callback */
     response(domInfo);
   }

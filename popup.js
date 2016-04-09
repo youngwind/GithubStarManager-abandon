@@ -1,9 +1,26 @@
 // Update the relevant fields with the new data
 function setDOMInfo(info) {
-  document.getElementById('total').textContent   = info.total;
-  document.getElementById('inputs').textContent  = info.inputs;
+  document.getElementById('total').textContent = info.total;
+  document.getElementById('inputs').textContent = info.inputs;
   document.getElementById('buttons').textContent = info.buttons;
+  document.getElementById('label').value = info.url;
 }
+
+function test(data) {
+  console.log(data);
+  document.getElementById('test').textContent = data;
+}
+
+chrome.tabs.query({
+  active: true,
+  currentWindow: true
+}, function (tabs) {
+  chrome.tabs.sendMessage(
+    tabs[0].id,
+    {from: 'popup', subject: 'test'},
+    test);
+});
+
 
 // Once the DOM is ready...
 window.addEventListener('DOMContentLoaded', function () {

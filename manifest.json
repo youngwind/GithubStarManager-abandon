@@ -15,7 +15,8 @@
     {
       "matches": [
         "https://github.com/*",
-        "https://www.baidu.com/*"
+        "https://*.com/*",
+        "http://*.com/*"
       ],
       "js": [
         "jquery.js",
