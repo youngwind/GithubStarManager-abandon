@@ -1,3 +1,4 @@
+// 点击icon的时候star rep
 chrome.tabs.query({
   active: true,
   currentWindow: true
@@ -10,7 +11,13 @@ chrome.tabs.query({
 
 
 function StarThisRep(res) {
-  document.getElementById('rep_name').textContent = '成功';
+  var starTip = document.querySelector('#star_tip');
+  if (!res) {
+    starTip.textContent = '仓库不能重复star';
+  } else {
+    starTip.textContent = res + ' star成功！';
+  }
+
 }
 
 

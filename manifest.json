@@ -1,15 +1,16 @@
 {
-  "name": "My First Extension",
-  "version": "1.0",
+  "name": "GithubStarManager",
+  "version": "0.0.1",
   "manifest_version": 2,
-  "description": "The first extension that I made.",
+  "description": "add tags when you star a github repository",
   "browser_action": {
     "default_icon": "icon.png",
     "default_popup": "popup.html"
   },
   "permissions": [
     "tabs",
-    "http://api.flickr.com/"
+    "http://api.flickr.com/",
+    "https://github.com/*/*"
   ],
   "content_scripts": [
     {

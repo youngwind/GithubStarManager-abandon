@@ -8,10 +8,23 @@ chrome.runtime.sendMessage({
 
 chrome.runtime.onMessage.addListener(function (msg, sender, response) {
 
-  if ((msg.from === 'popup') && (msg.subject === 'star-this-repository')) {
-    $('button[aria-label="Star this repository"]').trigger('click');
-    console.log('lalalal');
-    response(true);
+  if (msg.from === 'popup') {
+    switch (msg.subject) {
+      case 'star-this-repository':
+        // 获取github标记rep是否star的标志位
+        var form = $('.js-toggler-form.unstarred');
+        var btn = form.find('button[aria-label="Star this repository"]');
+        var formDisplay = form.css('display');
+        if (formDisplay === 'none') {
+          response(false)
+        } else {
+          btn.trigger('click');
+          response(btn.attr('title').split(' ')[1].split('/')[1]);
+        }
+        break;
+      default :
+        return;
+    }
   }
 
 });
